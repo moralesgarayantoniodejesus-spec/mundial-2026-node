@@ -6,3 +6,1207 @@
 <meta name="theme-color" content="#0a0a1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Mundial 2026 - Pronósticos</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--primary:#1a1a2e;--secondary:#16213e;--accent:#0f3460;--gold:#e94560;--highlight:#533483;--card:#16213e;--text:#eaeaea;--muted:#8892b0;--success:#00c853;--warning:#ffab00;--danger:#ff1744;--border:#2a3a5c;--input:#1a2744}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(135deg,var(--bg),var(--primary),var(--secondary));color:var(--text);min-height:100vh}
+input,select,button{font-family:inherit}
+a{color:var(--gold);text-decoration:none}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--primary)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+.container{max-width:1200px;margin:0 auto;padding:0 16px}
+.header{background:linear-gradient(90deg,var(--primary),var(--accent));padding:10px 0;border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 16px;flex-wrap:wrap;gap:8px}
+.logo{font-size:20px;font-weight:800;background:linear-gradient(90deg,var(--gold),#ff6b81);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{padding:7px 12px;background:transparent;color:var(--muted);border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s}
+.nav-btn:hover{background:rgba(255,255,255,.05)}
+.nav-btn.active{background:var(--gold);color:#fff;font-weight:700}
+
+.card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--border)}
+.card-gradient{background:linear-gradient(135deg,var(--accent),var(--highlight))}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid-sm{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+
+.btn{padding:10px 20px;background:var(--gold);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:8px}
+.btn-accent{background:var(--accent)}
+.btn-success{background:var(--success)}
+.btn-danger{background:var(--danger)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-block{width:100%;justify-content:center}
+
+.input{width:100%;padding:10px 14px;background:var(--input);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none}
+.input:focus{border-color:var(--gold)}
+.select{padding:10px 14px;background:var(--input);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px}
+.score-input{width:52px;padding:8px;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:18px;font-weight:700;text-align:center}
+.label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
+
+.badge{padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;color:#fff;display:inline-block}
+.badge-admin{background:var(--gold)}
+.badge-league{background:var(--highlight)}
+.badge-player{background:var(--accent)}
+.tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#fff;background:var(--accent)}
+.tag-quiniela{background:var(--accent)}
+.tag-survivor{background:var(--highlight)}
+.tag-success{background:var(--success)}
+.tag-warning{background:var(--warning);color:#000}
+.tag-danger{background:var(--danger)}
+
+.match-card{background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);margin-bottom:12px}
+.match-card.played{border-left:3px solid var(--success);opacity:.85}
+.match-card.predicted{border-left:3px solid var(--warning)}
+.team-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 0}
+.team-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;flex:1}
+.team-flag{font-size:20px}
+.vs{text-align:center;font-size:11px;color:var(--muted);padding:2px 0}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 12px;background:var(--accent);color:var(--text);font-weight:700;text-align:left;border-bottom:2px solid var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr.highlight{background:rgba(233,69,96,.12)}
+
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;justify-content:center;align-items:center;z-index:200;padding:16px}
+.modal{background:var(--secondary);border-radius:20px;padding:28px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;border:1px solid var(--border)}
+
+.login-page{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:16px}
+.login-box{max-width:420px;width:100%}
+.tab-bar{display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-bottom:20px}
+.tab-btn{flex:1;padding:10px;background:transparent;color:#fff;border:none;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s}
+.tab-btn.active{background:var(--gold)}
+
+.user-info{display:flex;align-items:center;gap:10px}
+.stat-card{text-align:center}
+.stat-num{font-size:28px;font-weight:800;color:var(--gold)}
+.stat-label{font-size:12px;color:var(--muted)}
+
+.team-pick{padding:10px 8px;background:var(--input);border:1px solid var(--border);border-radius:10px;color:#fff;cursor:pointer;font-size:12px;font-weight:400;display:flex;align-items:center;gap:6px;transition:all .15s}
+.team-pick:hover{border-color:var(--gold)}
+.team-pick.selected{background:var(--gold);border-color:var(--gold);font-weight:700}
+.pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.day-picks{display:flex;gap:8px;flex-wrap:wrap}
+.day-pick{text-align:center;padding:10px;min-width:80px}
+
+.result-bar{margin-top:8px;padding:6px 10px;background:var(--bg);border-radius:8px;text-align:center}
+.pts{font-weight:700;color:var(--warning)}
+.score-display{font-weight:800;font-size:20px;min-width:30px;text-align:center}
+
+.footer{text-align:center;padding:20px 16px;border-top:1px solid var(--border);margin-top:40px;font-size:12px;color:var(--muted)}
+
+.flex-between{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.form-group{margin-bottom:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mb-0{margin-bottom:0}.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}.mb-20{margin-bottom:20px}.mb-24{margin-bottom:24px}
+.mt-8{margin-top:8px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}.mt-28{margin-top:28px}
+
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .header-inner{flex-direction:column;align-items:stretch}
+  .nav{justify-content:center}
+  .form-row{grid-template-columns:1fr}
+  .user-info{justify-content:center}
+  table{font-size:12px}
+  th,td{padding:8px 6px}
+}
+.loading{display:flex;justify-content:center;align-items:center;padding:40px;color:var(--muted)}
+.error{background:rgba(255,23,68,.15);border:1px solid var(--danger);border-radius:10px;padding:12px;margin-bottom:12px;font-size:13px;color:var(--danger)}
+.success-msg{background:rgba(0,200,83,.15);border:1px solid var(--success);border-radius:10px;padding:12px;margin-bottom:12px;font-size:13px;color:var(--success)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useMemo, createContext, useContext } = React;
+
+// ============ API HELPERS ============
+const API = '/api';
+let authToken = null;
+
+async function api(path, options = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
+  const res = await fetch(`${API}${path}`, { ...options, headers: { ...headers, ...options.headers } });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Error del servidor');
+  return data;
+}
+
+const post = (path, body) => api(path, { method: 'POST', body: JSON.stringify(body) });
+const get = (path) => api(path);
+
+// ============ CONTEXT ============
+const AppContext = createContext();
+
+// ============ LOGIN ============
+function LoginScreen({ onLogin }) {
+  const [mode, setMode] = useState('login'); // login, register, forgot, reset
+  const [form, setForm] = useState({ email: '', password: '', nickname: '', first_name: '', last_name: '', phone: '', contact_type: 'whatsapp', code: '', new_password: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(''); setSuccess('');
+    setLoading(true);
+    try {
+      if (mode === 'login') {
+        const data = await post('/auth/login', { email: form.email, password: form.password });
+        authToken = data.token;
+        onLogin(data.user);
+      } else if (mode === 'register') {
+        const data = await post('/auth/register', form);
+        authToken = data.token;
+        onLogin(data.user);
+      } else if (mode === 'forgot') {
+        const data = await post('/auth/forgot-password', { email: form.email });
+        setSuccess(data.message || 'Solicitud enviada. Contacta al administrador para obtener tu codigo de recuperacion.');
+        setMode('reset');
+      } else if (mode === 'reset') {
+        await post('/auth/reset-password', { email: form.email, code: form.code, new_password: form.new_password });
+        setSuccess('Contraseña actualizada. Ya puedes iniciar sesion.');
+        setMode('login');
+        setForm(f => ({...f, password: '', code: '', new_password: ''}));
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  };
+
+  const setField = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  return (
+    <div className="login-page" style={{background:'linear-gradient(135deg,var(--bg),var(--primary),var(--secondary))'}}>
+      <div className="login-box">
+        <div style={{textAlign:'center',marginBottom:32}}>
+          <div style={{fontSize:52}}>⚽</div>
+          <h1 className="logo" style={{fontSize:30}}>Mundial 2026</h1>
+          <p style={{color:'var(--muted)',fontSize:14,marginTop:4}}>Plataforma de Pronósticos</p>
+        </div>
+        <div className="card" style={{padding:28}}>
+          {(mode==='login'||mode==='register') && <div className="tab-bar">
+            <button className={`tab-btn ${mode==='login'?'active':''}`} onClick={()=>{setMode('login');setError('');setSuccess('')}}>Iniciar Sesión</button>
+            <button className={`tab-btn ${mode==='register'?'active':''}`} onClick={()=>{setMode('register');setError('');setSuccess('')}}>Registrarse</button>
+          </div>}
+          {(mode==='forgot'||mode==='reset') && <div style={{marginBottom:16}}>
+            <button className="btn btn-sm btn-outline" onClick={()=>{setMode('login');setError('');setSuccess('')}}>← Volver al login</button>
+            <h3 style={{marginTop:12,fontSize:17,fontWeight:700}}>
+              {mode==='forgot'?'Recuperar Contraseña':'Ingresa tu Codigo'}
+            </h3>
+            <p style={{fontSize:12,color:'var(--muted)',marginTop:4}}>
+              {mode==='forgot'?'Ingresa tu email y te enviaremos un codigo de recuperacion via el administrador.':'Ingresa el codigo de 6 digitos que te dio el administrador y tu nueva contraseña.'}
+            </p>
+          </div>}
+          {error && <div className="error">{error}</div>}
+          {success && <div className="success-msg">{success}</div>}
+          <form onSubmit={handleSubmit}>
+            {(mode==='login'||mode==='register'||mode==='forgot'||mode==='reset') && <div className="form-group">
+              <label className="label">Email</label>
+              <input className="input" type="email" value={form.email} onChange={e=>setField('email',e.target.value)} placeholder="tu@email.com" required/>
+            </div>}
+            {(mode==='login'||mode==='register') && <div className="form-group">
+              <label className="label">Contraseña</label>
+              <input className="input" type="password" value={form.password} onChange={e=>setField('password',e.target.value)} placeholder="••••••••" required/>
+            </div>}
+            {mode==='reset' && <>
+              <div className="form-group">
+                <label className="label">Codigo de recuperacion (6 digitos)</label>
+                <input className="input" value={form.code} onChange={e=>setField('code',e.target.value)} placeholder="123456" maxLength={6} required style={{fontSize:20,fontWeight:700,letterSpacing:8,textAlign:'center'}}/>
+              </div>
+              <div className="form-group">
+                <label className="label">Nueva contraseña</label>
+                <input className="input" type="password" value={form.new_password} onChange={e=>setField('new_password',e.target.value)} placeholder="Tu nueva contraseña" required/>
+              </div>
+            </>}
+            {mode==='register' && <>
+              <div className="form-group">
+                <label className="label">Apodo / Sobrenombre</label>
+                <input className="input" value={form.nickname} onChange={e=>setField('nickname',e.target.value)} placeholder="Tu apodo" required/>
+              </div>
+              <div className="form-row mb-16">
+                <div><label className="label">Nombre(s)</label><input className="input" value={form.first_name} onChange={e=>setField('first_name',e.target.value)} required/></div>
+                <div><label className="label">Apellidos</label><input className="input" value={form.last_name} onChange={e=>setField('last_name',e.target.value)} required/></div>
+              </div>
+              <div className="form-group">
+                <label className="label">Teléfono</label>
+                <div style={{display:'flex',gap:8}}>
+                  <select className="select" value={form.contact_type} onChange={e=>setField('contact_type',e.target.value)} style={{width:130}}>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="telegram">Telegram</option>
+                  </select>
+                  <input className="input" value={form.phone} onChange={e=>setField('phone',e.target.value)} placeholder="+52 55 1234 5678" style={{flex:1}}/>
+                </div>
+              </div>
+            </>}
+            <button className="btn btn-block" type="submit" disabled={loading} style={{marginTop:8}}>
+              {loading ? 'Cargando...' : mode==='login' ? 'Entrar' : mode==='register' ? 'Crear Cuenta' : mode==='forgot' ? 'Solicitar Codigo' : 'Cambiar Contraseña'}
+            </button>
+          </form>
+          {mode==='login' && <div style={{marginTop:14,textAlign:'center'}}>
+            <button onClick={()=>{setMode('forgot');setError('');setSuccess('')}} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',fontSize:13,fontWeight:600}}>
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>}
+          {mode==='login' && <div style={{marginTop:12,textAlign:'center',fontSize:12,color:'var(--muted)'}}>
+            <p>Admin: <strong style={{color:'var(--gold)'}}>admin@mundial2026.com</strong> / <strong style={{color:'var(--gold)'}}>admin123</strong></p>
+            <p style={{marginTop:4}}>Jugador: <strong style={{color:'var(--highlight)'}}>player1@demo.com</strong> / <strong style={{color:'var(--highlight)'}}>player1</strong></p>
+          </div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============ HEADER ============
+function Header({ user, page, setPage, onLogout }) {
+  const roleLabel = user.role==='admin'?'ADMIN':user.role==='league_admin'?'LIGA ADMIN':'JUGADOR';
+  const roleClass = user.role==='admin'?'badge-admin':user.role==='league_admin'?'badge-league':'badge-player';
+  const handleChangePassword = async () => {
+    const currentPw = prompt('Ingresa tu contraseña actual:');
+    if (!currentPw) return;
+    const newPw = prompt('Ingresa tu nueva contraseña (mínimo 4 caracteres):');
+    if (!newPw) return;
+    if (newPw.length < 4) { alert('La contraseña debe tener al menos 4 caracteres'); return; }
+    const confirmPw = prompt('Confirma tu nueva contraseña:');
+    if (newPw !== confirmPw) { alert('Las contraseñas no coinciden'); return; }
+    try {
+      await post('/auth/change-password', { current_password: currentPw, new_password: newPw });
+      alert('Contraseña cambiada exitosamente');
+    } catch (e) { alert(e.message); }
+  };
+  return (
+    <header className="header">
+      <div className="header-inner">
+        <span className="logo">⚽ Mundial 2026</span>
+        <nav className="nav">
+          <button className={`nav-btn ${page==='dashboard'?'active':''}`} onClick={()=>setPage('dashboard')}>Inicio</button>
+          <button className={`nav-btn ${page==='matches'?'active':''}`} onClick={()=>setPage('matches')}>Partidos</button>
+          <button className={`nav-btn ${page==='leagues'?'active':''}`} onClick={()=>setPage('leagues')}>Mis Ligas</button>
+          {user.role==='admin' && <button className={`nav-btn ${page==='admin'?'active':''}`} onClick={()=>setPage('admin')}>Admin</button>}
+        </nav>
+        <div className="user-info">
+          <span className={`badge ${roleClass}`}>{roleLabel}</span>
+          <span style={{fontSize:14,fontWeight:600}}>{user.nickname}</span>
+          <button className="btn btn-sm btn-outline" onClick={handleChangePassword} title="Cambiar contraseña">🔑</button>
+          <button className="btn btn-sm btn-danger" onClick={onLogout}>Salir</button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// ============ DASHBOARD ============
+function Dashboard({ user, leagues, matches, setPage, setSelectedLeague }) {
+  const myLeagues = leagues.filter(l => l.my_status === 'approved');
+  const upcomingMatches = matches.filter(m => !m.played).slice(0, 4);
+
+  return (
+    <div>
+      <h2 style={{fontSize:22,marginBottom:20,fontWeight:700}}>Bienvenido, {user.nickname}</h2>
+      <div className="grid">
+        <div className="card card-gradient">
+          <h3 style={{fontSize:13,color:'var(--muted)',marginBottom:6}}>MIS LIGAS</h3>
+          <div style={{fontSize:34,fontWeight:800}}>{myLeagues.length}</div>
+        </div>
+        <div className="card" style={{background:'linear-gradient(135deg,var(--secondary),var(--accent))'}}>
+          <h3 style={{fontSize:13,color:'var(--muted)',marginBottom:6}}>PARTIDOS</h3>
+          <div style={{fontSize:34,fontWeight:800}}>{matches.length}</div>
+          <div style={{fontSize:12,color:'var(--muted)'}}>{matches.filter(m=>m.played).length} jugados</div>
+        </div>
+      </div>
+
+      <h3 style={{fontSize:17,marginTop:24,marginBottom:14}}>Mis Ligas</h3>
+      {myLeagues.length===0 ? (
+        <div className="card" style={{textAlign:'center',padding:36}}>
+          <p style={{color:'var(--muted)',marginBottom:14}}>No participas en ninguna liga aún.</p>
+          <button className="btn" onClick={()=>setPage('leagues')}>Explorar Ligas</button>
+        </div>
+      ) : (
+        <div className="grid">
+          {myLeagues.map(l => (
+            <div key={l.id} className="card" style={{cursor:'pointer'}}
+              onClick={()=>{setSelectedLeague(l);setPage(l.type==='quiniela'?'quiniela':'survivor')}}>
+              <div className="flex-between mb-8">
+                <h4 style={{fontWeight:700,fontSize:15}}>{l.name}</h4>
+                <span className={`tag tag-${l.type}`}>{l.type.toUpperCase()}</span>
+              </div>
+              <div style={{fontSize:12,color:'var(--muted)'}}>{l.member_count} jugadores · Admin: {l.admin_nickname}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <h3 style={{fontSize:17,marginTop:24,marginBottom:14}}>Próximos Partidos</h3>
+      <div className="grid">
+        {upcomingMatches.map(m => (
+          <div key={m.id} className="match-card">
+            <div className="flex-between mb-8">
+              <span className="tag">Grupo {m.group_letter}</span>
+              <span style={{fontSize:11,color:'var(--muted)'}}>{m.match_date} · {m.match_time}</span>
+            </div>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <span>{m.home_flag} {m.home_name}</span>
+              <span style={{fontWeight:700,color:'var(--muted)'}}>vs</span>
+              <span>{m.away_flag} {m.away_name}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============ MATCHES VIEW ============
+function MatchesView({ matches }) {
+  const [filterGroup, setFilterGroup] = useState('all');
+  const groups = [...new Set(matches.map(m=>m.group_letter))].sort();
+  const filtered = filterGroup==='all' ? matches : matches.filter(m=>m.group_letter===filterGroup);
+
+  return (
+    <div>
+      <h2 style={{fontSize:22,marginBottom:16,fontWeight:700}}>Partidos - Fase de Grupos</h2>
+      <div style={{display:'flex',gap:4,flexWrap:'wrap',marginBottom:16}}>
+        <button className={`nav-btn ${filterGroup==='all'?'active':''}`} onClick={()=>setFilterGroup('all')}>Todos</button>
+        {groups.map(g=><button key={g} className={`nav-btn ${filterGroup===g?'active':''}`} onClick={()=>setFilterGroup(g)}>{g}</button>)}
+      </div>
+      <div className="grid">
+        {filtered.map(m=>(
+          <div key={m.id} className={`match-card ${m.played?'played':''}`}>
+            <div className="flex-between mb-8">
+              <span className="tag">Grupo {m.group_letter}</span>
+              <span style={{fontSize:11,color:'var(--muted)'}}>{m.match_date} · {m.match_time}</span>
+            </div>
+            <div className="team-row">
+              <span className="team-name"><span className="team-flag">{m.home_flag}</span>{m.home_name}</span>
+              <span className="score-display" style={{color:m.played?'var(--success)':'var(--muted)'}}>{m.played?m.home_score:'-'}</span>
+            </div>
+            <div className="team-row">
+              <span className="team-name"><span className="team-flag">{m.away_flag}</span>{m.away_name}</span>
+              <span className="score-display" style={{color:m.played?'var(--success)':'var(--muted)'}}>{m.played?m.away_score:'-'}</span>
+            </div>
+            {m.played && <span className="tag tag-success mt-8">FINALIZADO</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============ LEAGUES VIEW ============
+function LeaguesView({ user, leagues, setPage, setSelectedLeague, refreshLeagues }) {
+  const [showCreate, setShowCreate] = useState(false);
+  const [inviteCode, setInviteCode] = useState('');
+  const [joinMsg, setJoinMsg] = useState('');
+  const [joinErr, setJoinErr] = useState('');
+  const myLeagues = leagues.filter(l=>l.my_status==='approved');
+  const available = leagues.filter(l=>l.my_status!=='approved');
+
+  const joinLeague = async (leagueId) => {
+    try { await post('/leagues/join', {league_id:leagueId}); refreshLeagues(); } catch(e) { alert(e.message); }
+  };
+
+  const joinByCode = async () => {
+    if (!inviteCode.trim()) return;
+    setJoinErr(''); setJoinMsg('');
+    try {
+      await post('/leagues/join', { invite_code: inviteCode.trim().toUpperCase() });
+      setJoinMsg('Solicitud enviada correctamente');
+      setInviteCode('');
+      refreshLeagues();
+    } catch(e) { setJoinErr(e.message); }
+  };
+
+  return (
+    <div>
+      <div className="flex-between mb-20">
+        <h2 style={{fontSize:22,fontWeight:700}}>Mis Ligas</h2>
+        <button className="btn" onClick={()=>setShowCreate(true)}>+ Crear Liga</button>
+      </div>
+
+      {/* Join by invite code */}
+      <div className="card mb-16" style={{borderLeft:'3px solid var(--gold)'}}>
+        <h4 style={{fontSize:14,fontWeight:700,marginBottom:8}}>Unirse con Codigo de Invitacion</h4>
+        {joinErr && <div className="error">{joinErr}</div>}
+        {joinMsg && <div className="success-msg">{joinMsg}</div>}
+        <div style={{display:'flex',gap:8,alignItems:'center'}}>
+          <input className="input" value={inviteCode} onChange={e=>setInviteCode(e.target.value.toUpperCase())}
+            placeholder="Ej: A1B2C3" maxLength={6}
+            style={{width:160,fontSize:18,fontWeight:700,letterSpacing:4,textAlign:'center',textTransform:'uppercase'}}/>
+          <button className="btn btn-sm" onClick={joinByCode}>Unirse</button>
+        </div>
+      </div>
+
+      {myLeagues.length>0 && <div className="grid mb-24">
+        {myLeagues.map(l=>(
+          <div key={l.id} className="card">
+            <div className="flex-between mb-12">
+              <h4 style={{fontWeight:700}}>{l.name}</h4>
+              <span className={`tag tag-${l.type}`}>{l.type.toUpperCase()}</span>
+            </div>
+            <p style={{fontSize:12,color:'var(--muted)',marginBottom:4}}>{l.member_count} miembros · Admin: {l.admin_nickname}</p>
+            {l.invite_code && <p style={{fontSize:11,color:'var(--gold)',marginBottom:12}}>Codigo: <strong style={{letterSpacing:2}}>{l.invite_code}</strong></p>}
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <button className="btn btn-sm" onClick={()=>{setSelectedLeague(l);setPage(l.type==='quiniela'?'quiniela':'survivor')}}>
+                Jugar {l.type==='quiniela'?'Quiniela':'Survivor'}
+              </button>
+              <button className="btn btn-sm btn-accent" onClick={()=>{setSelectedLeague(l);setPage('leaderboard')}}>Tabla</button>
+              <button className="btn btn-sm btn-outline" onClick={()=>{setSelectedLeague(l);setPage('league_rules')}}>Reglas</button>
+              {l.admin_id===user.id && <button className="btn btn-sm btn-success" onClick={()=>{setSelectedLeague(l);setPage('league_admin')}}>Administrar</button>}
+            </div>
+          </div>
+        ))}
+      </div>}
+
+      <h3 style={{fontSize:15,marginBottom:12,color:'var(--muted)'}}>Ligas disponibles</h3>
+      <div className="grid">
+        {available.map(l=>(
+          <div key={l.id} className="card">
+            <div className="flex-between mb-12">
+              <h4 style={{fontWeight:700}}>{l.name}</h4>
+              <span className={`tag tag-${l.type}`}>{l.type.toUpperCase()}</span>
+            </div>
+            <p style={{fontSize:12,color:'var(--muted)',marginBottom:12}}>{l.member_count} miembros</p>
+            {l.my_status==='pending' ? <span className="tag tag-warning">Pendiente</span> :
+              <button className="btn btn-sm" onClick={()=>joinLeague(l.id)}>Solicitar Unirse</button>}
+          </div>
+        ))}
+        {available.length===0 && <p style={{color:'var(--muted)',fontSize:13}}>No hay ligas disponibles.</p>}
+      </div>
+
+      {showCreate && <CreateLeagueModal onClose={()=>setShowCreate(false)} onCreated={()=>{setShowCreate(false);refreshLeagues()}}/>}
+    </div>
+  );
+}
+
+function CreateLeagueModal({ onClose, onCreated }) {
+  const [name, setName] = useState('');
+  const [type, setType] = useState('quiniela');
+  const [lives, setLives] = useState(5);
+  const [extraLives, setExtraLives] = useState(3);
+  const [error, setError] = useState('');
+
+  const handleCreate = async () => {
+    try {
+      await post('/leagues', { name, type, lives, extra_lives: extraLives });
+      onCreated();
+    } catch (e) { setError(e.message); }
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={e=>e.stopPropagation()}>
+        <h2 style={{fontSize:18,fontWeight:700,marginBottom:20}}>Crear Nueva Liga</h2>
+        {error && <div className="error">{error}</div>}
+        <div className="form-group">
+          <label className="label">Nombre de la Liga</label>
+          <input className="input" value={name} onChange={e=>setName(e.target.value)} placeholder="Mi Liga del Mundial"/>
+        </div>
+        <div className="form-group">
+          <label className="label">Tipo</label>
+          <div style={{display:'flex',gap:10}}>
+            <button className={`btn ${type==='quiniela'?'':'btn-outline'}`} style={{flex:1,justifyContent:'center'}} onClick={()=>setType('quiniela')}>Quiniela</button>
+            <button className={`btn ${type==='survivor'?'':'btn-outline'}`} style={{flex:1,justifyContent:'center'}} onClick={()=>setType('survivor')}>Survivor</button>
+          </div>
+        </div>
+        {type==='survivor' && <div className="form-row mb-16">
+          <div><label className="label">Vidas</label><input className="input" type="number" min="1" value={lives} onChange={e=>setLives(+e.target.value)}/></div>
+          <div><label className="label">Vidas Extras</label><input className="input" type="number" min="0" value={extraLives} onChange={e=>setExtraLives(+e.target.value)}/></div>
+        </div>}
+        <div style={{display:'flex',gap:10,marginTop:20}}>
+          <button className="btn btn-outline" style={{flex:1,justifyContent:'center'}} onClick={onClose}>Cancelar</button>
+          <button className="btn" style={{flex:1,justifyContent:'center'}} onClick={handleCreate}>Crear</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============ QUINIELA ============
+function QuinielaView({ user, league, matches, setPage }) {
+  const [predictions, setPredictions] = useState({});
+  const [filterGroup, setFilterGroup] = useState('all');
+  const [msg, setMsg] = useState('');
+  const groups = [...new Set(matches.map(m=>m.group_letter))].sort();
+
+  useEffect(() => {
+    get(`/predictions?league_id=${league.id}`).then(preds => {
+      const map = {};
+      preds.forEach(p => { map[p.match_id] = p; });
+      setPredictions(map);
+    }).catch(()=>{});
+  }, [league.id]);
+
+  const savePrediction = async (matchId, homeScore, awayScore) => {
+    try {
+      await post('/predictions', { league_id: league.id, match_id: matchId, home_score: homeScore, away_score: awayScore });
+      setPredictions(prev => ({ ...prev, [matchId]: { ...prev[matchId], home_score: homeScore, away_score: awayScore } }));
+      setMsg('Guardado!');
+      setTimeout(()=>setMsg(''), 2000);
+    } catch (e) { alert(e.message); }
+  };
+
+  const filtered = matches.filter(m => {
+    if (filterGroup==='pending') return !m.played;
+    if (filterGroup==='played') return m.played;
+    if (filterGroup!=='all') return m.group_letter===filterGroup;
+    return true;
+  });
+
+  return (
+    <div>
+      <button className="btn btn-sm btn-outline mb-8" onClick={()=>setPage('leagues')}>← Volver</button>
+      <div className="flex-between mb-16">
+        <div>
+          <h2 style={{fontSize:20,fontWeight:700}}>{league.name}</h2>
+          <p style={{fontSize:12,color:'var(--muted)'}}>Llena tus pronósticos 5 min antes de cada partido</p>
+        </div>
+        <div style={{display:'flex',gap:8}}>
+          <button className="btn btn-sm btn-accent" onClick={()=>setPage('leaderboard')}>Ver Tabla</button>
+          <button className="btn btn-sm btn-outline" onClick={()=>setPage('points_detail')}>Desglose Pts</button>
+        </div>
+      </div>
+      {msg && <div className="success-msg">{msg}</div>}
+      <div style={{display:'flex',gap:4,flexWrap:'wrap',marginBottom:16}}>
+        <button className={`nav-btn ${filterGroup==='all'?'active':''}`} onClick={()=>setFilterGroup('all')}>Todos</button>
+        <button className={`nav-btn ${filterGroup==='pending'?'active':''}`} onClick={()=>setFilterGroup('pending')}>Pendientes</button>
+        <button className={`nav-btn ${filterGroup==='played'?'active':''}`} onClick={()=>setFilterGroup('played')}>Jugados</button>
+        {groups.map(g=><button key={g} className={`nav-btn ${filterGroup===g?'active':''}`} onClick={()=>setFilterGroup(g)}>{g}</button>)}
+      </div>
+      <div className="grid">
+        {filtered.map(m => <PredictionCard key={m.id} match={m} prediction={predictions[m.id]} onSave={savePrediction}/>)}
+      </div>
+    </div>
+  );
+}
+
+function PredictionCard({ match, prediction, onSave }) {
+  const [hs, setHs] = useState(prediction?.home_score ?? '');
+  const [as, setAs] = useState(prediction?.away_score ?? '');
+
+  useEffect(() => {
+    if (prediction) { setHs(prediction.home_score ?? ''); setAs(prediction.away_score ?? ''); }
+  }, [prediction]);
+
+  const locked = match.played;
+
+  return (
+    <div className={`match-card ${match.played?'played':prediction?'predicted':''}`}>
+      <div className="flex-between mb-8">
+        <span className="tag">Grupo {match.group_letter}</span>
+        <span style={{fontSize:11,color:'var(--muted)'}}>{match.match_date} · {match.match_time}</span>
+      </div>
+      <div className="team-row">
+        <span className="team-name"><span className="team-flag">{match.home_flag}</span>{match.home_name}</span>
+        {locked ? <span className="score-display" style={{color:'var(--gold)'}}>{prediction?.home_score??'-'}</span> :
+          <input className="score-input" type="number" min="0" max="20" value={hs} onChange={e=>setHs(e.target.value)}/>}
+      </div>
+      <div className="vs">VS</div>
+      <div className="team-row">
+        <span className="team-name"><span className="team-flag">{match.away_flag}</span>{match.away_name}</span>
+        {locked ? <span className="score-display" style={{color:'var(--gold)'}}>{prediction?.away_score??'-'}</span> :
+          <input className="score-input" type="number" min="0" max="20" value={as} onChange={e=>setAs(e.target.value)}/>}
+      </div>
+      {match.played && <div className="result-bar">
+        <span style={{fontSize:12,color:'var(--muted)'}}>Real: </span>
+        <span style={{fontWeight:800,color:'var(--success)'}}>{match.home_score} - {match.away_score}</span>
+        {prediction?.points!==undefined && <span className="pts" style={{marginLeft:12}}>+{prediction.points} pts</span>}
+      </div>}
+      {!locked && <button className="btn btn-sm btn-success btn-block mt-8"
+        onClick={()=>{if(hs!==''&&as!=='')onSave(match.id,parseInt(hs),parseInt(as))}}>Guardar</button>}
+    </div>
+  );
+}
+
+// ============ SURVIVOR ============
+function SurvivorView({ user, league, setPage }) {
+  const [teams, setTeams] = useState([]);
+  const [picks, setPicks] = useState([]);
+  const [dayMatches, setDayMatches] = useState([]);
+  const [matchDays, setMatchDays] = useState([]);
+  const [day, setDay] = useState(1);
+  const [msg, setMsg] = useState('');
+
+  useEffect(() => {
+    get('/teams').then(setTeams).catch(()=>{});
+    get(`/survivor/picks?league_id=${league.id}`).then(setPicks).catch(()=>{});
+    get('/matches/days').then(setMatchDays).catch(()=>{});
+  }, [league.id]);
+
+  // Load matches for selected day
+  useEffect(() => {
+    get(`/matches/by-day?day=${day}`).then(setDayMatches).catch(()=>setDayMatches([]));
+  }, [day]);
+
+  const usedTeamIds = picks.filter(p=>p.match_day!==day).map(p=>p.team_id);
+  const currentPick = picks.find(p=>p.match_day===day);
+  const availableTeams = teams.filter(t=>!usedTeamIds.includes(t.id)||t.id===currentPick?.team_id);
+
+  // Get teams playing on this day for highlighting
+  const teamsPlayingToday = new Set();
+  dayMatches.forEach(m => { teamsPlayingToday.add(m.home_team_id); teamsPlayingToday.add(m.away_team_id); });
+
+  const handlePick = async (teamId) => {
+    try {
+      await post('/survivor/pick', { league_id: league.id, match_day: day, team_id: teamId });
+      const updated = await get(`/survivor/picks?league_id=${league.id}`);
+      setPicks(updated);
+      setMsg('Selección guardada!');
+      setTimeout(()=>setMsg(''),2000);
+    } catch (e) { alert(e.message); }
+  };
+
+  const currentDayInfo = matchDays.find(d => d.match_day === day);
+  const totalDays = matchDays.length || 36;
+
+  return (
+    <div>
+      <button className="btn btn-sm btn-outline mb-8" onClick={()=>setPage('leagues')}>← Volver</button>
+      <h2 style={{fontSize:20,fontWeight:700,marginBottom:4}}>{league.name} - Survivor</h2>
+      <p style={{fontSize:12,color:'var(--muted)',marginBottom:16}}>Selecciona un equipo por día. No puedes repetir equipo.</p>
+      {msg && <div className="success-msg">{msg}</div>}
+
+      <div style={{display:'flex',gap:4,flexWrap:'wrap',marginBottom:16}}>
+        {matchDays.slice(0,20).map(d=>(
+          <button key={d.match_day} className={`nav-btn ${day===d.match_day?'active':''}`}
+            onClick={()=>setDay(d.match_day)}
+            title={d.match_date}>
+            Día {d.match_day}
+          </button>
+        ))}
+      </div>
+
+      {/* DAY MATCHES - Shows which matches are played this day */}
+      <div className="card" style={{borderLeft:'3px solid var(--highlight)',marginBottom:16}}>
+        <h3 style={{fontSize:15,marginBottom:4}}>
+          Partidos del Día {day}
+          {currentDayInfo && <span style={{fontSize:12,color:'var(--muted)',fontWeight:400,marginLeft:8}}>({currentDayInfo.match_date})</span>}
+        </h3>
+        <p style={{fontSize:11,color:'var(--muted)',marginBottom:12}}>{dayMatches.length} partidos programados — selecciona un equipo que juegue hoy</p>
+        {dayMatches.length > 0 ? (
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(260px, 1fr))',gap:8}}>
+            {dayMatches.map(m => (
+              <div key={m.id} className={`match-card ${m.played?'played':''}`} style={{marginBottom:0,padding:12}}>
+                <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+                  <span className="tag" style={{fontSize:9}}>Grupo {m.group_letter}</span>
+                  <span style={{fontSize:10,color:'var(--muted)'}}>{m.match_time}</span>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}}>
+                  <span style={{fontSize:13,display:'flex',alignItems:'center',gap:4}}>
+                    <span>{m.home_flag}</span>
+                    <span style={{fontWeight:currentPick?.team_id===m.home_team_id?700:400,
+                      color:currentPick?.team_id===m.home_team_id?'var(--gold)':'var(--text)'}}>
+                      {m.home_name}
+                    </span>
+                  </span>
+                  {m.played ?
+                    <span style={{fontWeight:800,color:'var(--success)',fontSize:15}}>{m.home_score} - {m.away_score}</span> :
+                    <span style={{color:'var(--muted)',fontSize:12}}>vs</span>
+                  }
+                  <span style={{fontSize:13,display:'flex',alignItems:'center',gap:4}}>
+                    <span style={{fontWeight:currentPick?.team_id===m.away_team_id?700:400,
+                      color:currentPick?.team_id===m.away_team_id?'var(--gold)':'var(--text)'}}>
+                      {m.away_name}
+                    </span>
+                    <span>{m.away_flag}</span>
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p style={{color:'var(--muted)',fontSize:13,textAlign:'center',padding:12}}>No hay partidos programados para este día</p>
+        )}
+      </div>
+
+      {/* TEAM SELECTION */}
+      <div className="card">
+        <h3 style={{fontSize:15,marginBottom:4}}>Selecciona tu equipo para el Día {day}</h3>
+        <p style={{fontSize:11,color:'var(--muted)',marginBottom:12}}>Equipos que juegan hoy tienen borde dorado</p>
+        <div className="pick-grid">
+          {availableTeams.map(t=>(
+            <button key={t.id}
+              className={`team-pick ${currentPick?.team_id===t.id?'selected':''}`}
+              onClick={()=>handlePick(t.id)}
+              style={teamsPlayingToday.has(t.id) && currentPick?.team_id!==t.id ?
+                {borderColor:'var(--gold)',borderWidth:2,borderStyle:'solid'} : {}}>
+              <span style={{fontSize:18}}>{t.flag}</span>
+              <span style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',flex:1}}>{t.name}</span>
+              {teamsPlayingToday.has(t.id) && currentPick?.team_id!==t.id && <span style={{fontSize:9,color:'var(--gold)'}}>HOY</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <h3 style={{fontSize:15,marginTop:20,marginBottom:12}}>Tus selecciones</h3>
+      <div className="day-picks">
+        {matchDays.slice(0,15).map(d=>{
+          const pick = picks.find(p=>p.match_day===d.match_day);
+          return (
+            <div key={d.match_day} className="card day-pick" style={{cursor:'pointer',border:day===d.match_day?'2px solid var(--gold)':'1px solid var(--border)'}}
+              onClick={()=>setDay(d.match_day)}>
+              <div style={{fontSize:10,color:'var(--muted)',marginBottom:4}}>Día {d.match_day}</div>
+              {pick ? <>
+                <span style={{fontSize:22}}>{pick.team_flag}</span>
+                <div style={{fontSize:11,fontWeight:600}}>{pick.team_code}</div>
+              </> : <div style={{fontSize:18,color:'var(--muted)'}}>—</div>}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ============ LEADERBOARD ============
+function LeaderboardView({ user, league, setPage }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    get(`/leagues/${league.id}/leaderboard`).then(setData).catch(()=>{}).finally(()=>setLoading(false));
+  }, [league.id]);
+
+  return (
+    <div>
+      <button className="btn btn-sm btn-outline mb-12" onClick={()=>setPage('leagues')}>← Volver</button>
+      <h2 style={{fontSize:20,fontWeight:700,marginBottom:16}}>{league.name} - Tabla de Posiciones</h2>
+      {loading ? <div className="loading">Cargando...</div> :
+        <div className="card" style={{overflowX:'auto'}}>
+          {league.type==='quiniela' ? (
+            <>
+              <div style={{fontSize:11,color:'var(--muted)',marginBottom:10}}>ME = Marcador Exacto · EG = Equipo Gana · Emp = Empate · DG = Dif. Goles</div>
+              <table>
+                <thead><tr>
+                  <th>#</th><th>Jugador</th><th>Pts</th><th>ME</th><th>EG</th><th>Emp</th><th>DG</th>
+                </tr></thead>
+                <tbody>
+                  {data.map((p,i)=>(
+                    <tr key={p.id} className={p.id===user.id?'highlight':''}>
+                      <td><span style={{fontWeight:700,color:i<3?'var(--gold)':'var(--muted)',fontSize:i<3?16:14}}>
+                        {i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}
+                      </span></td>
+                      <td><div style={{fontWeight:600}}>{p.nickname}</div><div style={{fontSize:11,color:'var(--muted)'}}>{p.first_name} {p.last_name}</div></td>
+                      <td style={{fontWeight:800,fontSize:17,color:'var(--gold)'}}>{p.total_points}</td>
+                      <td style={{color:'var(--success)'}}>{p.exact_scores}</td>
+                      <td>{p.correct_winners}</td>
+                      <td>{p.correct_draws}</td>
+                      <td>{p.correct_goal_diff}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          ) : (
+            <table>
+              <thead><tr><th>#</th><th>Jugador</th><th>Estado</th><th>Vidas</th><th>Días</th></tr></thead>
+              <tbody>
+                {data.map((p,i)=>(
+                  <tr key={p.user_id} className={p.user_id===user.id?'highlight':''}>
+                    <td>{i+1}</td>
+                    <td><div style={{fontWeight:600}}>{p.nickname}</div></td>
+                    <td><span className={`tag ${p.alive?'tag-success':'tag-danger'}`}>{p.alive?'VIVO':'ELIMINADO'}</span></td>
+                    <td style={{fontWeight:700}}>{p.lives_remaining}</td>
+                    <td>{p.survived_days}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      }
+    </div>
+  );
+}
+
+// ============ LEAGUE ADMIN ============
+function LeagueAdminView({ user, league, setPage, refreshLeagues }) {
+  const [members, setMembers] = useState([]);
+  const [scoring, setScoring] = useState({});
+  const [survivorConfig, setSurvivorConfig] = useState({});
+  const [rulesText, setRulesText] = useState('');
+  const [rulesLocked, setRulesLocked] = useState(false);
+  const [currentInviteCode, setCurrentInviteCode] = useState(league.invite_code || '');
+
+  const loadMembers = () => get(`/leagues/${league.id}/members`).then(setMembers).catch(()=>{});
+
+  useEffect(() => {
+    loadMembers();
+    if (league.type==='quiniela') get(`/leagues/${league.id}/scoring`).then(setScoring).catch(()=>{});
+    if (league.type==='survivor') get(`/leagues/${league.id}/survivor-config`).then(setSurvivorConfig).catch(()=>{});
+    get(`/leagues/${league.id}/rules`).then(d => {
+      setRulesText(d.rules_text || '');
+      setRulesLocked(d.rules_locked || false);
+    }).catch(()=>{});
+  }, [league.id]);
+
+  const approve = async (uid) => {
+    await post('/leagues/approve', { league_id: league.id, user_id: uid });
+    loadMembers(); refreshLeagues();
+  };
+  const reject = async (uid) => {
+    await post('/leagues/reject', { league_id: league.id, user_id: uid });
+    loadMembers(); refreshLeagues();
+  };
+  const saveScoring = async () => {
+    try {
+      await post('/leagues/scoring', { league_id: league.id, ...scoring });
+      alert('Puntajes actualizados');
+    } catch (e) { alert(e.message); }
+  };
+  const saveSurvivorConfig = async () => {
+    try {
+      await post('/leagues/survivor-config', { league_id: league.id, ...survivorConfig });
+      alert('Configuración actualizada');
+    } catch (e) { alert(e.message); }
+  };
+
+  const pending = members.filter(m=>m.status==='pending');
+  const approved = members.filter(m=>m.status==='approved');
+
+  return (
+    <div>
+      <button className="btn btn-sm btn-outline mb-12" onClick={()=>setPage('leagues')}>← Volver</button>
+      <h2 style={{fontSize:20,fontWeight:700,marginBottom:16}}>Administrar: {league.name}</h2>
+
+      {pending.length>0 && <div className="card" style={{borderLeft:'3px solid var(--warning)'}}>
+        <h3 style={{fontSize:15,marginBottom:12}}>Solicitudes Pendientes ({pending.length})</h3>
+        {pending.map(m=>(
+          <div key={m.id} className="flex-between" style={{padding:'8px 0',borderBottom:'1px solid var(--border)'}}>
+            <div><span style={{fontWeight:600}}>{m.nickname}</span> <span style={{fontSize:12,color:'var(--muted)'}}>{m.first_name} {m.last_name}</span></div>
+            <div style={{display:'flex',gap:6}}>
+              <button className="btn btn-sm btn-success" onClick={()=>approve(m.id)}>Aprobar</button>
+              <button className="btn btn-sm btn-danger" onClick={()=>reject(m.id)}>Rechazar</button>
+            </div>
+          </div>
+        ))}
+      </div>}
+
+      <div className="card">
+        <h3 style={{fontSize:15,marginBottom:12}}>Miembros ({approved.length})</h3>
+        <div style={{overflowX:'auto'}}>
+          <table><thead><tr><th>Apodo</th><th>Nombre</th><th>Contacto</th></tr></thead>
+            <tbody>{approved.map(m=>(
+              <tr key={m.id}>
+                <td><span style={{fontWeight:600}}>{m.nickname}</span></td>
+                <td>{m.first_name} {m.last_name}</td>
+                <td style={{fontSize:12}}>{m.contact_type==='whatsapp'?'📱':'✈️'} {m.phone}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      </div>
+
+      {league.type==='quiniela' && scoring && <div className="card">
+        <h3 style={{fontSize:15,marginBottom:12}}>Configuración de Puntajes</h3>
+        <div className="grid-sm">
+          {[['exact_score','Marcador Exacto'],['correct_winner','Equipo Gana'],['correct_draw','Empate'],
+            ['goal_difference','Dif. Goles'],['group_first','1er Grupo'],['group_second','2do Grupo']].map(([k,label])=>(
+            <div key={k}>
+              <label className="label">{label}</label>
+              <input className="input" type="number" min="0" value={scoring[k]||0}
+                onChange={e=>setScoring(s=>({...s,[k]:+e.target.value}))} style={{width:80}}/>
+            </div>
+          ))}
+        </div>
+        <button className="btn btn-sm btn-success mt-16" onClick={saveScoring}>Guardar Puntajes</button>
+      </div>}
+
+      {league.type==='survivor' && survivorConfig && <div className="card">
+        <h3 style={{fontSize:15,marginBottom:12}}>Configuración Survivor</h3>
+        <div style={{display:'flex',gap:16}}>
+          <div><label className="label">Vidas</label>
+            <input className="input" type="number" min="1" value={survivorConfig.lives||5}
+              onChange={e=>setSurvivorConfig(c=>({...c,lives:+e.target.value}))} style={{width:80}}/></div>
+          <div><label className="label">Vidas Extras</label>
+            <input className="input" type="number" min="0" value={survivorConfig.extra_lives||0}
+              onChange={e=>setSurvivorConfig(c=>({...c,extra_lives:+e.target.value}))} style={{width:80}}/></div>
+        </div>
+        <button className="btn btn-sm btn-success mt-16" onClick={saveSurvivorConfig}>Guardar</button>
+      </div>}
+
+      {/* Invite Code */}
+      <div className="card">
+        <h3 style={{fontSize:15,marginBottom:12}}>Codigo de Invitacion</h3>
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
+          <div style={{background:'var(--bg)',padding:'12px 20px',borderRadius:10,fontSize:24,fontWeight:800,letterSpacing:6,color:'var(--gold)'}}>
+            {currentInviteCode || '------'}
+          </div>
+          <button className="btn btn-sm btn-accent" onClick={async()=>{
+            try{const d=await post('/leagues/regenerate-code',{league_id:league.id});setCurrentInviteCode(d.invite_code);refreshLeagues();}catch(e){alert(e.message)}
+          }}>Regenerar</button>
+        </div>
+        <p style={{fontSize:11,color:'var(--muted)',marginTop:8}}>Comparte este codigo para que otros se unan directamente a tu liga.</p>
+      </div>
+
+      {/* Rules */}
+      <div className="card">
+        <div className="flex-between mb-12">
+          <h3 style={{fontSize:15}}>Reglas de la Liga</h3>
+          {rulesLocked && <span className="tag tag-danger">Bloqueadas</span>}
+        </div>
+        {rulesLocked ? (
+          <div>
+            <p style={{fontSize:12,color:'var(--muted)',marginBottom:8}}>Las reglas estan bloqueadas y no pueden ser modificadas (menos de 24h para el primer partido).</p>
+            <div style={{whiteSpace:'pre-wrap',fontSize:14,lineHeight:1.7,background:'var(--bg)',padding:16,borderRadius:10}}>{rulesText || 'Sin reglas definidas.'}</div>
+          </div>
+        ) : (
+          <div>
+            <textarea className="input" rows={8} value={rulesText} onChange={e=>setRulesText(e.target.value)}
+              placeholder="Escribe las reglas de tu liga aqui... Ej: Cuotas de inscripcion, premios, reglas de desempate, etc."
+              style={{resize:'vertical',fontFamily:'inherit',lineHeight:1.6}}/>
+            <button className="btn btn-sm btn-success mt-8" onClick={async()=>{
+              try{await post(`/leagues/${league.id}/rules`,{rules_text:rulesText});alert('Reglas actualizadas');}catch(e){alert(e.message)}
+            }}>Guardar Reglas</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ============ ADMIN PANEL ============
+function AdminPanel({ user, matches, refreshMatches }) {
+  const [users, setUsers] = useState([]);
+  const [allLeagues, setAllLeagues] = useState([]);
+  const [stats, setStats] = useState({});
+  const [filterGroup, setFilterGroup] = useState('all');
+  const groups = [...new Set(matches.map(m=>m.group_letter))].sort();
+
+  useEffect(() => {
+    get('/users').then(setUsers).catch(()=>{});
+    get('/leagues').then(setAllLeagues).catch(()=>{});
+    get('/stats').then(setStats).catch(()=>{});
+  }, []);
+
+  const setResult = async (matchId, homeScore, awayScore) => {
+    try {
+      await post('/matches/result', { match_id: matchId, home_score: homeScore, away_score: awayScore });
+      refreshMatches();
+    } catch (e) { alert(e.message); }
+  };
+
+  const changeRole = async (userId, role) => {
+    try {
+      await post('/users/role', { user_id: userId, role });
+      const updated = await get('/users');
+      setUsers(updated);
+    } catch (e) { alert(e.message); }
+  };
+
+  const resetPassword = async (userId, nickname) => {
+    const newPw = prompt(`Nueva contraseña para ${nickname}:`);
+    if (!newPw) return;
+    try {
+      await post('/admin/reset-password', { user_id: userId, new_password: newPw });
+      alert(`Contraseña de ${nickname} reseteada exitosamente. Nueva contraseña: ${newPw}`);
+    } catch (e) { alert(e.message); }
+  };
+
+  const unplayed = matches.filter(m=>!m.played&&(filterGroup==='all'||m.group_letter===filterGroup));
+  const played = matches.filter(m=>m.played&&(filterGroup==='all'||m.group_letter===filterGroup));
+
+  return (
+    <div>
+      <h2 style={{fontSize:22,fontWeight:700,marginBottom:20}}>Panel de Administración</h2>
+
+      <div className="grid-sm mb-24">
+        <div className="card stat-card"><div className="stat-num">{stats.total_users||0}</div><div className="stat-label">Usuarios</div></div>
+        <div className="card stat-card"><div className="stat-num" style={{color:'var(--highlight)'}}>{stats.total_leagues||0}</div><div className="stat-label">Ligas</div></div>
+        <div className="card stat-card"><div className="stat-num" style={{color:'var(--success)'}}>{stats.played_matches||0}</div><div className="stat-label">Jugados</div></div>
+        <div className="card stat-card"><div className="stat-num" style={{color:'var(--text)'}}>{(stats.total_matches||0)-(stats.played_matches||0)}</div><div className="stat-label">Pendientes</div></div>
+      </div>
+
+      <div className="card">
+        <h3 style={{fontSize:17,marginBottom:14}}>Ingresar Resultados Reales</h3>
+        <div style={{display:'flex',gap:4,flexWrap:'wrap',marginBottom:14}}>
+          <button className={`nav-btn ${filterGroup==='all'?'active':''}`} onClick={()=>setFilterGroup('all')}>Todos</button>
+          {groups.map(g=><button key={g} className={`nav-btn ${filterGroup===g?'active':''}`} onClick={()=>setFilterGroup(g)}>{g}</button>)}
+        </div>
+        {unplayed.slice(0,8).map(m=><AdminMatchRow key={m.id} match={m} onSetResult={setResult}/>)}
+        {played.length>0 && <>
+          <h4 style={{fontSize:13,color:'var(--success)',marginTop:16,marginBottom:8}}>Resultados ingresados</h4>
+          {played.map(m=>(
+            <div key={m.id} className="match-card played" style={{opacity:.7}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <span>{m.home_flag} {m.home_name}</span>
+                <span style={{fontWeight:800,fontSize:18,color:'var(--success)'}}>{m.home_score} - {m.away_score}</span>
+                <span>{m.away_flag} {m.away_name}</span>
+              </div>
+            </div>
+          ))}
+        </>}
+      </div>
+
+      <div className="card">
+        <h3 style={{fontSize:17,marginBottom:14}}>Gestión de Usuarios</h3>
+        <div style={{overflowX:'auto'}}>
+          <table><thead><tr><th>Apodo</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Acción</th></tr></thead>
+            <tbody>{users.map(u=>(
+              <tr key={u.id}>
+                <td><span style={{fontWeight:600}}>{u.nickname}</span></td>
+                <td>{u.first_name} {u.last_name}</td>
+                <td style={{fontSize:12}}>{u.email}</td>
+                <td><span className={`badge ${u.role==='admin'?'badge-admin':u.role==='league_admin'?'badge-league':'badge-player'}`}>
+                  {u.role==='admin'?'ADMIN':u.role==='league_admin'?'LIGA ADMIN':'JUGADOR'}
+                </span></td>
+                <td style={{display:'flex',gap:4,flexWrap:'wrap'}}>
+                  {u.role==='player' && <button className="btn btn-sm btn-accent" onClick={()=>changeRole(u.id,'league_admin')}>Promover</button>}
+                  {u.role==='league_admin' && <button className="btn btn-sm btn-danger" onClick={()=>changeRole(u.id,'player')}>Degradar</button>}
+                  {u.role!=='admin' && <button className="btn btn-sm btn-outline" onClick={()=>resetPassword(u.id,u.nickname)} title="Resetear contraseña">Resetear clave</button>}
+                </td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdminMatchRow({ match, onSetResult }) {
+  const [hs, setHs] = useState('');
+  const [as, setAs] = useState('');
+  return (
+    <div className="match-card" style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
+      <div style={{flex:1,minWidth:180}}>
+        <span className="tag" style={{fontSize:10,marginBottom:4,display:'inline-block'}}>Grupo {match.group_letter}</span>
+        <div style={{fontSize:13}}>{match.home_flag} {match.home_name} vs {match.away_flag} {match.away_name}</div>
+        <div style={{fontSize:11,color:'var(--muted)'}}>{match.match_date} · {match.match_time}</div>
+      </div>
+      <div style={{display:'flex',alignItems:'center',gap:6}}>
+        <input className="score-input" type="number" min="0" value={hs} onChange={e=>setHs(e.target.value)} placeholder="0"/>
+        <span style={{fontWeight:700,color:'var(--muted)'}}>-</span>
+        <input className="score-input" type="number" min="0" value={as} onChange={e=>setAs(e.target.value)} placeholder="0"/>
+        <button className="btn btn-sm btn-success" onClick={()=>{if(hs!==''&&as!=='')onSetResult(match.id,+hs,+as)}}>OK</button>
+      </div>
+    </div>
+  );
+}
+
+// ============ LEAGUE RULES VIEW ============
+function LeagueRulesView({ user, league, setPage }) {
+  const [rules, setRules] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    get(`/leagues/${league.id}/rules`).then(d => {
+      setRules(d.rules_text || '');
+    }).catch(()=>{}).finally(()=>setLoading(false));
+  }, [league.id]);
+
+  return (
+    <div>
+      <button className="btn btn-sm btn-outline mb-12" onClick={()=>setPage('leagues')}>← Volver</button>
+      <h2 style={{fontSize:20,fontWeight:700,marginBottom:16}}>{league.name} - Reglas</h2>
+      {loading ? <div className="loading">Cargando...</div> :
+        <div className="card">
+          {rules ? (
+            <div style={{whiteSpace:'pre-wrap',fontSize:14,lineHeight:1.7}}>{rules}</div>
+          ) : (
+            <p style={{color:'var(--muted)',textAlign:'center',padding:20}}>No hay reglas definidas para esta liga.</p>
+          )}
+        </div>
+      }
+    </div>
+  );
+}
+
+// ============ POINTS DETAIL VIEW ============
+function PointsDetailView({ user, league, setPage }) {
+  const [details, setDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    get(`/predictions/detail?league_id=${league.id}`).then(setDetails).catch(()=>{}).finally(()=>setLoading(false));
+  }, [league.id]);
+
+  const totalPts = details.reduce((s,d) => s + (d.points||0), 0);
+
+  return (
+    <div>
+      <button className="btn btn-sm btn-outline mb-12" onClick={()=>setPage('quiniela')}>← Volver a Quiniela</button>
+      <h2 style={{fontSize:20,fontWeight:700,marginBottom:4}}>{league.name} - Desglose de Puntos</h2>
+      <p style={{fontSize:13,color:'var(--muted)',marginBottom:16}}>Total: <strong style={{color:'var(--gold)',fontSize:18}}>{totalPts} pts</strong></p>
+      {loading ? <div className="loading">Cargando...</div> :
+        <div className="card" style={{overflowX:'auto'}}>
+          {details.length === 0 ? (
+            <p style={{color:'var(--muted)',textAlign:'center',padding:20}}>No hay partidos jugados con pronosticos aun.</p>
+          ) : (
+            <table>
+              <thead><tr>
+                <th>Partido</th><th>Tu Pronostico</th><th>Resultado</th><th>ME</th><th>EG</th><th>Emp</th><th>DG</th><th>Total</th>
+              </tr></thead>
+              <tbody>
+                {details.map((d,i)=>(
+                  <tr key={i}>
+                    <td style={{fontSize:12}}>{d.home_name} vs {d.away_name}</td>
+                    <td style={{fontWeight:700,textAlign:'center'}}>{d.pred_home}-{d.pred_away}</td>
+                    <td style={{fontWeight:700,textAlign:'center',color:'var(--success)'}}>{d.real_home}-{d.real_away}</td>
+                    <td style={{color:d.exact_score_pts>0?'var(--gold)':'var(--muted)',fontWeight:d.exact_score_pts>0?700:400}}>{d.exact_score_pts||0}</td>
+                    <td style={{color:d.correct_winner_pts>0?'var(--success)':'var(--muted)',fontWeight:d.correct_winner_pts>0?700:400}}>{d.correct_winner_pts||0}</td>
+                    <td style={{color:d.correct_draw_pts>0?'var(--highlight)':'var(--muted)',fontWeight:d.correct_draw_pts>0?700:400}}>{d.correct_draw_pts||0}</td>
+                    <td style={{color:d.goal_diff_pts>0?'var(--warning)':'var(--muted)',fontWeight:d.goal_diff_pts>0?700:400}}>{d.goal_diff_pts||0}</td>
+                    <td style={{fontWeight:800,color:'var(--gold)',fontSize:16}}>{d.points||0}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      }
+    </div>
+  );
+}
+
+// ============ MAIN APP ============
+function App() {
+  const [user, setUser] = useState(null);
+  const [page, setPage] = useState('dashboard');
+  const [leagues, setLeagues] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [selectedLeague, setSelectedLeague] = useState(null);
+
+  const loadLeagues = () => { if(authToken) get('/leagues').then(setLeagues).catch(()=>{}); };
+  const loadMatches = () => get('/matches').then(setMatches).catch(()=>{});
+
+  useEffect(() => {
+    if (user) { loadLeagues(); loadMatches(); }
+  }, [user]);
+
+  const handleLogout = () => { authToken = null; setUser(null); setPage('dashboard'); setSelectedLeague(null); };
+
+  if (!user) return <LoginScreen onLogin={setUser}/>;
+
+  return (
+    <div style={{minHeight:'100vh'}}>
+      <Header user={user} page={page} setPage={(p)=>{setPage(p);if(p==='dashboard')setSelectedLeague(null)}} onLogout={handleLogout}/>
+      <main className="container" style={{padding:'20px 16px'}}>
+        {page==='dashboard' && <Dashboard user={user} leagues={leagues} matches={matches} setPage={setPage} setSelectedLeague={setSelectedLeague}/>}
+        {page==='matches' && <MatchesView matches={matches}/>}
+        {page==='leagues' && <LeaguesView user={user} leagues={leagues} setPage={setPage} setSelectedLeague={setSelectedLeague} refreshLeagues={loadLeagues}/>}
+        {page==='quiniela' && selectedLeague && <QuinielaView user={user} league={selectedLeague} matches={matches} setPage={setPage}/>}
+        {page==='survivor' && selectedLeague && <SurvivorView user={user} league={selectedLeague} setPage={setPage}/>}
+        {page==='leaderboard' && selectedLeague && <LeaderboardView user={user} league={selectedLeague} setPage={setPage}/>}
+        {page==='league_admin' && selectedLeague && <LeagueAdminView user={user} league={selectedLeague} setPage={setPage} refreshLeagues={loadLeagues}/>}
+        {page==='league_rules' && selectedLeague && <LeagueRulesView user={user} league={selectedLeague} setPage={setPage}/>}
+        {page==='points_detail' && selectedLeague && <PointsDetailView user={user} league={selectedLeague} setPage={setPage}/>}
+        {page==='admin' && user.role==='admin' && <AdminPanel user={user} matches={matches} refreshMatches={loadMatches}/>}
+      </main>
+      <footer className="footer">Mundial 2026 - Plataforma de Pronósticos · 48 equipos · 12 grupos</footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
